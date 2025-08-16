@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Location Picker</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <style>
+        html, body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            display: none;
+
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        #mapContainer {
+            display: none;
+            position: relative;
+            margin-top: 20px;
+        }
+
+        #map {
+            height: 400px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .coordinates-box, .api-box {
+            margin-top: 10px;
+            background: #fff;
+            padding: 10px 14px;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            font-size: 14px;
+        }
+
+        button {
+            padding: 10px 16px;
+            border: none;
+            background-color: #0078d4;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #005fa3;
+        }
+
+        #confirmBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: none;
+            background-color: #28a745;
+        }
+
+        #confirmBtn:hover {
+            background-color: #218838;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 4px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+
+
+    <h2>Dashboard Location Settings</h2>
+
+    <div class="api-box">
+        <label for="dashboardTitle"><strong>Dashboard Title:</strong></label>
+        <input type="text" id="dashboardTitle" placeholder="Enter a name for this dashboard" />
+        <label for="apiKey"><strong>API Key:</strong></label>
+        <input type="text" id="apiKey" placeholder="Enter your API key" />
+    <label for="wifiSSID"><strong>Wi-Fi SSID:</strong></label>
+    <input type="text" id="wifiSSID" placeholder="Enter your Wi-Fi network name" />
+
+    <label for="wifiPassword"><strong>Wi-Fi Password:</strong></label>
+    <input type="password" id="wifiPassword" placeholder="Enter your Wi-Fi password" />
+    </div>
+
+    <button id="openMapBtn">Pick Location</button>
+
+    <div class="coordinates-box" id="coordsBox" style="display:none;">
+        <strong>Selected Location:</strong>
+        Lat: <span id="lat">--</span><br>
+        Lng: <span id="lng">--</span>
+    </div>
+
+    <div id="mapContainer">
+        <div id="map"></div>
+    </div>
+</div>
+
+<!-- Confirm Button -->
+<button id="confirmBtn">Confirm</button>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script type="module">
+
+
+    import {SetDashBoardConfig} from "./FileManager.js";
+
+    // Check if settings.json exists and is valid
+    fetch('/api/settings-exists')
+        .then(res => res.json())
+        .then(data => {
+            if (data.exists) {
+                // If settings already exist, redirect to the dashboard
+                window.location.href = './render/index.html';
+            } else {
+                // Otherwise, let the user configure settings
+                document.querySelector('.container').style.display = 'block';
+            }
+        });
+
+
+    let Lat = null;
+    let Lng = null;
+    let mapInitialized = false;
+    let marker = null;
+
+    const openMapBtn = document.getElementById('openMapBtn');
+    const mapContainer = document.getElementById('mapContainer');
+    const coordsBox = document.getElementById('coordsBox');
+    const latSpan = document.getElementById('lat');
+    const lngSpan = document.getElementById('lng');
+    const confirmBtn = document.getElementById('confirmBtn');
+    const apiKeyInput = document.getElementById('apiKey');
+
+    openMapBtn.addEventListener('click', () => {
+        mapContainer.style.display = 'block';
+        coordsBox.style.display = 'block';
+
+        if (!mapInitialized) {
+            initMap();
+            mapInitialized = true;
+        }
+    });
+
+    function initMap() {
+        const map = L.map('map').setView([20, 0], 2);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        map.on('click', (e) => {
+            const { lat, lng } = e.latlng;
+
+            Lat = lat;
+            Lng = lng;
+
+            latSpan.textContent = lat.toFixed(5);
+            lngSpan.textContent = lng.toFixed(5);
+
+            if (marker) {
+                marker.setLatLng(e.latlng);
+            } else {
+                marker = L.marker(e.latlng, { draggable: true }).addTo(map);
+            }
+
+            marker.on('dragend', function (event) {
+                const position = event.target.getLatLng();
+                Lat = position.lat;
+                Lng = position.lng;
+                latSpan.textContent = Lat.toFixed(5);
+                lngSpan.textContent = Lng.toFixed(5);
+            });
+
+            confirmBtn.style.display = 'block';
+        });
+    }
+
+    confirmBtn.addEventListener('click', () => {
+        const apiKey = apiKeyInput.value.trim();
+        const dashboardTitle = document.getElementById('dashboardTitle').value;
+    const wifiSSID = document.getElementById('wifiSSID').value.trim();
+    const wifiPassword = document.getElementById('wifiPassword').value.trim();
+        if (!Lat || !Lng) {
+            alert("Please pick a location.");
+            return;
+        }
+
+        if (!apiKey) {
+            alert("API key is required.");
+            return;
+        }    if (!wifiSSID) {
+        alert("Wi-Fi SSID is required.");
+        return;
+    }
+    if (!wifiPassword) {
+        alert("Wi-Fi password is required.");
+        return;
+    }
+
+        const settings = {
+            latitude: Lat,
+            longitude: Lng,
+            apiKey: apiKey,
+            dashboardTitle:dashboardTitle,
+	    wifiSSID:wifiSSID,
+	    wifiPassword:wifiPassword
+        };
+
+        console.log("Saving to settings.json:", settings);
+        const response = async function(){
+            return await SetDashBoardConfig(document.getElementById('lat').textContent,document.getElementById('lng').textContent,document.getElementById('apiKey').value,dashboardTitle)
+        }
+        console.log(response())
+        window.location.href = './render/index.html';  // or your dashboard file path
+        document.getElementById("DashboarLocation").innerText="MANIP"
+
+        // Save settings using fetch (adapt this to your environment or plugin backend)
+
+    });
+</script>
+
+</body>
+</html>

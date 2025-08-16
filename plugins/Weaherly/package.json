@@ -1,0 +1,32 @@
+{
+  "name": "electron",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "blockly": "^11.1.0",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "kill-port": "^2.0.1",
+    "ps-tree": "^1.2.0",
+    "puppeteer": "^24.15.0",
+    "puppeteer-core": "^24.15.0",
+    "renderer": "^0.1.5",
+    "resize-img": "^1.1.2",
+    "swisseph": "^0.5.17",
+    "toastify": "^2.0.1",
+    "tree-kill": "^1.2.2"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.28.0",
+    "babel-jest": "^30.0.4",
+    "jest": "^30.0.4"
+  }
+}

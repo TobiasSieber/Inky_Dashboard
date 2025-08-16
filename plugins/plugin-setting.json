@@ -1,0 +1,5 @@
+{
+    "_pluginType": "Diashow",
+    "_refreshTime": 900,
+    "_generateImageCommand": "./run_inky.sh"
+}

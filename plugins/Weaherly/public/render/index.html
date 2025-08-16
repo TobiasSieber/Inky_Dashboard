@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="./css/style.css" />
+    <script src="https://kit.fontawesome.com/dde957a181.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
+
+
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+
+    <div class="search-container">
+    <div class="dashboard-frame-container">
+        <div class="dashboard-frame-dashboard-frame">
+            <div class="dashboard-frame-dashboard">
+                <div class="dashboard-frame-title">
+                    <span id ="DashboarLocation" class="dashboard-frame-text11">--</span>
+                    <span id ="DashboardDate" class="dashboard-frame-text10">--</span>
+                </div>
+                <div class="MainData">
+                    <div class="dashboard-frame-frame3">
+                        <img  alt="Weather Icon" class="weather-icon" id="Weather-today-icon" />
+
+                        <div class="temperature-info">
+                            <span id ="main-temp" class="Maintemperatur">--</span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="dashboard-frame-metric-box">
+
+                        <div class="metric-item">
+                            <img id="clock-image"src="./images/Dashboard/clock.png" alt="UV" />
+                            <span id="clock" class="MetricSubText"></span>
+                        </div>
+
+                        <div class="metric-item">
+                            <img src="./images/Dashboard/UV.png" alt="UV" />
+                            <span id="uv-index" class="MetricSubText">UV</span>
+                        </div>
+
+                        <div class="metric-item">
+                            <img id="zodiac-image"src="./images/Zodiac/aquarius.png" alt="UV" />
+                            <span id="zodiac" class="MetricSubText">aquarius</span>
+                        </div>
+
+                        <div class="metric-item">
+                            <img id="lucky-color-image"src="./images/LuckyColor/yellow.png" alt="UV" />
+                            <span id="lucky-color" class="MetricSubText">Color of the day</span>
+                        </div>
+
+
+                    </div>
+              </div>
+                <div class="chart-container">
+                    <canvas id="hourlyChartJS"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="weather-container" id="weather-container">
+            <!-- Cards will be injected here by JavaScript -->
+        </div>
+    </div>
+
+    <script type="module" src="../script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Your function call here
+
+            initDashboard();
+        });
+
+        function initDashboard() {
+            console.log("Dashboard loaded");
+            // Your logic here
+        }
+    </script>
+
+</div>
+</body>
+
+</html>

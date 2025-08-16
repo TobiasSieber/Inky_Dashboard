@@ -1,0 +1,332 @@
+/* General Layout */
+* {
+  box-sizing: border-box;
+}
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Jost', sans-serif;
+
+  color: #333;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+.page-wrapper {
+  position: relative;
+  padding: 1rem;
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Decorative corners */
+.page-wrapper::before,
+.page-wrapper::after {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 2px solid #000000;
+  margin-left: 2px;
+  margin-top: 2px;
+  pointer-events: none;
+}
+
+/* Top-left: horizontal right, vertical down */
+.page-wrapper::before {
+  top: 0;
+  left: 0;
+  border-right: none;
+  border-bottom: none;
+}
+
+/* Bottom-right: horizontal left, vertical up */
+.page-wrapper::after {
+  bottom: 0;
+  right: 0;
+  border-left: none;
+  border-top: none;
+  margin-right: 2px;
+  margin-bottom: 2px;
+}
+
+
+/* Header + Search */
+.search-container {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+#city-input {
+  padding: 0.6rem 1rem;
+  border-radius: 1rem;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  min-width: 180px;
+}
+
+#search-btn {
+  background-color: #6cc3d5;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+#search-btn:hover {
+  background-color: #4da2b5;
+}
+
+/* Title */
+.page-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Dashboard Frame */
+.dashboard-frame-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 1600px;
+  margin: auto;
+}
+
+.dashboard-frame-dashboard-frame {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.dashboard-frame-dashboard {
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Title Block */
+.dashboard-frame-title {
+  text-align: center;
+}
+.dashboard-frame-text10 {
+  font-weight: 700;
+  font-size: 1rem;
+  display: flex;
+}
+.dashboard-frame-text11 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+/* Temperature Block */
+.dashboard-frame-frame3 {
+  display: flex;
+  align-items: center;
+  position: relative;
+  top: -2rem;
+}
+
+.weather-icon {
+  width: 100px;
+  height: 128px;
+  object-fit: contain;
+}
+
+.temperature-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.Maintemperatur {
+  font-size: 2.5rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.Feelsliketemperatur {
+  font-size: 1rem;
+  color: #555;
+}
+
+.MainData{
+  display: flex;
+  height: auto;
+  width: 95%;
+}
+
+
+
+/* Metrics Layout */
+.dashboard-frame-metric-box {
+  display: grid;
+  grid-template: auto/  auto auto;
+  height: auto; /* or unset fixed heights */
+  margin-top: -1rem;
+  width: 35%;
+  margin-left: auto;
+  margin-right: 0;
+  gap: 1rem;
+
+}
+
+.metric-item {
+  display: flex;
+  flex-direction: row; /* Change from column to row */
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem; /* space between icon and text */
+  text-align: left;
+  width: 100%;
+}
+
+.metric-item img {
+  width: 32px; /* Slightly smaller if needed */
+  height: 32px;
+  object-fit: contain;
+}
+
+.MetricSubText {
+  font-size: 1.2rem;
+  margin-top: 0; /* remove vertical spacing */
+  white-space: nowrap;
+}
+
+
+/* Weather Cards */
+.weather-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.card {
+  flex: 1 1 280px;
+  max-width: 160px;
+  width: 100%;
+  object-fit: contain;
+  display: block;
+  background: #000408;
+  color: white;
+  border-radius: 20px;
+  padding: 1rem;
+  transition: transform 0.3s;
+}
+
+
+.card:hover {
+  transform: translateY(-5px);
+}
+.weather-card {
+  position: relative;
+  width: 90px;
+  aspect-ratio: 2/3; /* ⬅️ Keep consistent height based on width */
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  background: #000;
+  transition: transform 0.3s;
+  flex: 0 0 auto;
+}
+
+
+.weather-card:hover {
+  transform: translateY(-5px);
+}
+
+.chart-container {
+  max-width: 800px;
+
+  width: 100%;
+  height: 100%;
+}
+#hourlyChartJS {
+  width: 100% !important;
+  height: 60px !important;
+}
+
+.card-bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ✅ Crops to fill without distortion */
+  display: block;
+}
+
+.card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  color: #e3dada;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Key: separates header from footer */
+  border-radius: 20px;
+}
+
+.card-header {
+  text-align: center;
+}
+
+.card-day {
+  margin: 0;
+  font-size: 1.1rem;         /* or slightly smaller: 1rem */
+  font-weight: 300;          /* Thinner weight */
+  letter-spacing: 0.5px;
+
+}
+
+.card-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.card-temp {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.card-feels {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.card-condition {
+  margin: 0;
+  font-size: 1rem;
+}
+
+
+/* Responsive Tweaks */
+@media (max-width: 768px) {
+  .metric-item {
+    width: 80px;
+  }
+
+  .MetricSubText {
+    font-size: 0.8rem;
+  }
+
+
+
+
+}
